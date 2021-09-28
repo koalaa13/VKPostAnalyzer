@@ -5,9 +5,7 @@ import org.glassfish.grizzly.http.Method;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.net.URISyntaxException;
 import java.util.function.Consumer;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
@@ -31,8 +29,21 @@ public class URLReaderWithStubServerTest {
                     .then(stringContent("pong"));
 
             String result = reader.readAsText(
-                    urlBuilder.buildUrl("localhost", PORT, "/ping", null));
+                    urlBuilder.buildHttpUrl("localhost", PORT, "/ping", null));
             assertEquals("pong\n", result);
+        });
+    }
+
+    @Test
+    public void readAsFewLineTextTest() {
+        withStubServer(PORT, s -> {
+            whenHttp(s)
+                    .match(method(Method.GET), startsWithUri("/ping"))
+                    .then(stringContent("pong\npong\npong"));
+
+            String result = reader.readAsText(
+                    urlBuilder.buildHttpUrl("localhost", PORT, "/ping", null));
+            assertEquals("pong\npong\npong\n", result);
         });
     }
 
@@ -44,7 +55,7 @@ public class URLReaderWithStubServerTest {
                     .then(status(HttpStatus.NOT_FOUND_404));
 
             reader.readAsText(
-                    urlBuilder.buildUrl("localhost", PORT, "/ping", null));
+                    urlBuilder.buildHttpUrl("localhost", PORT, "/ping", null));
         }));
     }
 

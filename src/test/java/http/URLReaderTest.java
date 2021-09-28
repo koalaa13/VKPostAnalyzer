@@ -1,15 +1,10 @@
 package http;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.client.utils.URIBuilder;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import extension.HostReachableBeforeAllCallback;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +19,7 @@ class URLReaderTest {
     @Test
     public void readTest() {
         assertDoesNotThrow(() -> {
-            final String url = urlBuilder.buildUrl(HOST, null, "/method/newsfeed.search",
+            final String url = urlBuilder.buildHttpUrl(HOST, null, "/method/newsfeed.search",
                     List.of(Pair.of("v", "5.131")));
             String text = reader.readAsText(url);
             assertFalse(text.isEmpty());

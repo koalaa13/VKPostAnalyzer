@@ -34,41 +34,41 @@ class URLBuilderTest {
 
     @Test
     public void urlWithAllPartsTest() {
-        final String url = builder.buildUrl(HOST, PORT, PATH, PARAMETERS);
+        final String url = builder.buildHttpUrl(HOST, PORT, PATH, PARAMETERS);
         final String correctUrl = SCHEMA + "://" + HOST + ':' + PORT + PATH + '?' + getCorrectParametersRepresentation();
         assertEquals(correctUrl, url);
     }
 
     @Test
     public void urlWithoutParametersTest() {
-        final String url = builder.buildUrl(HOST, PORT, PATH, null);
+        final String url = builder.buildHttpUrl(HOST, PORT, PATH, null);
         final String correctUrl = SCHEMA + "://" + HOST + ':' + PORT + PATH;
         assertEquals(correctUrl, url);
     }
 
     @Test
     public void urlWithoutPortTest() {
-        final String url = builder.buildUrl(HOST, null, PATH, PARAMETERS);
+        final String url = builder.buildHttpUrl(HOST, null, PATH, PARAMETERS);
         final String correctUrl = SCHEMA + "://" + HOST + PATH + '?' + getCorrectParametersRepresentation();
         assertEquals(correctUrl, url);
     }
 
     @Test
     public void urlWithoutPathTest() {
-        final String url = builder.buildUrl(HOST, PORT, null, PARAMETERS);
+        final String url = builder.buildHttpUrl(HOST, PORT, null, PARAMETERS);
         final String correctUrl = SCHEMA + "://" + HOST + ':' + PORT + '?' + getCorrectParametersRepresentation();
         assertEquals(correctUrl, url);
     }
 
     @Test
     public void urlWithoutHostTest() {
-        final String url = builder.buildUrl(null, PORT, PATH, PARAMETERS);
+        final String url = builder.buildHttpUrl(null, PORT, PATH, PARAMETERS);
         final String correctUrl = SCHEMA + ":" + PATH + '?' + getCorrectParametersRepresentation();
         assertEquals(correctUrl, url);
     }
 
     @Test
     public void everythingNullTest() {
-        assertThrows(RuntimeException.class, () -> builder.buildUrl(null, null, null, null));
+        assertThrows(RuntimeException.class, () -> builder.buildHttpUrl(null, null, null, null));
     }
 }

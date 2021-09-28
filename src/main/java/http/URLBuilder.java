@@ -8,12 +8,35 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public class URLBuilder {
-    public String buildUrl(String host,
-                           Integer port,
-                           String path,
-                           List<Pair<String, String>> parameters) {
+    public String buildHttpUrl(String host,
+                               Integer port,
+                               String path,
+                               List<Pair<String, String>> parameters) {
+        return buildUrl("http",
+                host,
+                port,
+                path,
+                parameters);
+    }
+
+    public String buildHttpsUrl(String host,
+                                Integer port,
+                                String path,
+                                List<Pair<String, String>> parameters) {
+        return buildUrl("https",
+                host,
+                port,
+                path,
+                parameters);
+    }
+
+    private String buildUrl(String scheme,
+                            String host,
+                            Integer port,
+                            String path,
+                            List<Pair<String, String>> parameters) {
         URIBuilder builder = new URIBuilder();
-        builder.setScheme("http");
+        builder.setScheme(scheme);
         builder.setHost(host);
         if (port != null) {
             builder.setPort(port);

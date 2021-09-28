@@ -3,6 +3,8 @@ package news;
 import exception.ParserException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NewsResponseParserTest {
@@ -10,14 +12,12 @@ class NewsResponseParserTest {
 
     @Test
     public void parseCorrectResponse() {
-        for (int i = 0; i < 10; ++i) {
-            final int finalI = i;
-            final int[] res = new int[1];
-            assertDoesNotThrow(() -> {
-                res[0] = parser.getCountFromResponse(buildCorrectResponseWithCount(finalI));
-            });
-            assertEquals(i, res[0]);
-        }
+        assertDoesNotThrow(() -> {
+            for (int i = 0; i < 10; ++i) {
+                int res = parser.getCountFromResponse(buildCorrectResponseWithCount(i));
+                assertEquals(i, res);
+            }
+        });
     }
 
     @Test
@@ -33,7 +33,7 @@ class NewsResponseParserTest {
     private String buildIncorrectResponseWithoutCount() {
         return "{\n" +
                 "    \"response\": {\n" +
-                "        \"items\": [],\n" +
+                "        \"items\": []\n" +
                 "    }\n" +
                 "}";
     }
@@ -52,7 +52,7 @@ class NewsResponseParserTest {
         return "{\n" +
                 "    \"error\": {\n" +
                 "        \"error_code\": 100,\n" +
-                "        \"error_msg\": \"One of the parameters specified was missing or invalid: start_time should be greater or equal to 0\",\n" +
+                "        \"error_msg\": \"One of the parameters specified was missing or invalid: start_time should be greater or equal to 0\"\n" +
                 "    }\n" +
                 "}";
     }
