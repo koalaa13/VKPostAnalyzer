@@ -6,20 +6,27 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-public class NewsClient {
-    private final NewsResponseParser parser;
+public class VKNewsClient {
+    private final VKNewsResponseParser parser;
     private final URLReader reader;
     private final URLBuilder builder;
-    // TODO move it to prop file
     private final String host;
     private final Integer port;
-    private final static String ACCESS_KEY = "0f33d6800f33d6800f33d680c20f4aa39400f330f33d6806e7e204e643707b94affe6be";
-    private final static String API_VERSION = "5.131";
+    private final boolean secured;
+    private final String accessKey;
+    private final String apiVersion;
 
-    public NewsClient(String host, Integer port) {
+    public VKNewsClient(String host,
+                        Integer port,
+                        boolean secured,
+                        String accessKey,
+                        String apiVersion) {
+        this.apiVersion = apiVersion;
+        this.secured = secured;
         this.host = host;
         this.port = port;
-        parser = new NewsResponseParser();
+        this.accessKey = accessKey;
+        parser = new VKNewsResponseParser();
         reader = new URLReader();
         builder = new URLBuilder();
     }
@@ -40,12 +47,15 @@ public class NewsClient {
                              Long endTime) {
         List<Pair<String, String>> parameters = List.of(
                 Pair.of("q", hashtag),
-                Pair.of("v", API_VERSION),
-                Pair.of("access_token", ACCESS_KEY),
+                Pair.of("v", apiVersion),
+                Pair.of("access_token", accessKey),
                 Pair.of("count", "0"),
                 Pair.of("start_time", startTime.toString()),
                 Pair.of("end_time", endTime.toString())
         );
-        return builder.buildHttpsUrl(host, port, "/method/newsfeed.search", parameters);
+        if (secured) {
+            return builder.buildHttpsUrl(host, port, "/method/newsfeed.search", parameters);
+        }
+        return builder.buildHttpUrl(host, port, "/method/newsfeed.search", parameters);
     }
 }

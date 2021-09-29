@@ -3,12 +3,10 @@ package news;
 import exception.ParserException;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-class NewsResponseParserTest {
-    private final NewsResponseParser parser = new NewsResponseParser();
+class VKNewsResponseParserTest {
+    private final VKNewsResponseParser parser = new VKNewsResponseParser();
 
     @Test
     public void parseCorrectResponse() {

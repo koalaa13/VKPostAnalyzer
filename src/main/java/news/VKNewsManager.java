@@ -3,15 +3,15 @@ package news;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
-public class NewsManager {
-    private final NewsClient client;
+public class VKNewsManager {
+    private final VKNewsClient client;
 
-    public NewsManager(NewsClient client) {
+    public VKNewsManager(VKNewsClient client) {
         this.client = client;
     }
 
     /**
-     * the same as {@link NewsClient#getPostsWithHashtagInTimeSegmentCount(String, Long, Long)}
+     * the same as {@link VKNewsClient#getPostsWithHashtagInTimeSegmentCount(String, Long, Long)}
      * but get array of posts counts created in previous cntPastHours.
      *
      * @return array with size cntPastHours. Containing counts.
